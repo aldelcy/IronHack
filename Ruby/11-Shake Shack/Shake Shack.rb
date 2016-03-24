@@ -51,44 +51,51 @@ class Shake_Shop
     
     def receipt
         
+        fnl_balance = [ ]
+        
         for item in final_order
+        
             puts "#{item.mlk_name}"
-            for variation in item.ingredients
-                v_name = variation.name
-                v_price = variation.price
-                print "  #{v_name} ($#{v_price})\n"
+            
+            for var in item.ingredients
+                print "  #{var.name} ($#{var.price})\n"
+                ttl_price = item.base_price += var.price
             end
             
-            total_prc = base_price++ 
-            puts "#{item.mlk_name} Total -> "
+            puts "Total -> $#{ttl_price}\n\n"
             
+             fnl_balance.push(ttl_price)
         end
+        
+        puts "GRAND TOTAL: $#{fnl_balance.inject(0){|sum,x| sum + x }}"
+        
     end
     
 end
 
 
 
-nizars_milkshake = MilkShake.new "Grand_Slam"
+nizars_milkshake = MilkShake.new "Grand Slam"
     #add Ingredients
     nizars_milkshake.add_ingredient(banana)
     nizars_milkshake.add_ingredient(chocolate_chips)
 
-joshs_milkshake = MilkShake.new "King_Shaker"
+joshs_milkshake = MilkShake.new "King Shaker"
     #add Ingredients
     joshs_milkshake.add_ingredient(strawberry)
     joshs_milkshake.add_ingredient(plum)
     
-#als_milkshake = MilkShake.new "Cookies_and_Cream"
+als_milkshake = MilkShake.new "Cookies & Cream"
     #add Ingredients
-#    als_milkshake.add_ingredient(vanilla)
-#    als_milkshake.add_ingredient(chocolate_chips)
+    als_milkshake.add_ingredient(vanilla)
+    als_milkshake.add_ingredient(chocolate_chips)
 
 
 #when done, add Milkshake
 finalOrder = Shake_Shop.new
 finalOrder.add_milkshake(nizars_milkshake)
 finalOrder.add_milkshake(joshs_milkshake)
+finalOrder.add_milkshake(als_milkshake)
 
-puts "Your Final Order is:\n"
+puts "Your Final Order is:\n\n"
 finalOrder.receipt
